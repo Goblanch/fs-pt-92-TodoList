@@ -6,3 +6,8 @@
 .task-item:hover .delete-button {
     opacity: 1;
 }
+
+.app-title{
+    font-family: Raleway;
+    color: rgb(162, 162, 162);
+}

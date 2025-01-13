@@ -26,7 +26,7 @@ const TodoApp = () => {
 
     return (
         <div className="container mt-5">
-            <h1 className="text-center text-muted mb-4">Todos</h1>
+            <h1 className="text-center fw-light mb-4 app-title">todos</h1>
             <div className="row justify-content-center">
                 <div className="col-md-6 border mb">
                     <div className="input-group m-2">
@@ -58,8 +58,8 @@ const TodoApp = () => {
                             </li>
                         ))}
                     </ul>
-                    <div className="border m-2">
-                        <p className="text text-muted m-2">{taskCount} items left</p>
+                    <div className="border-top">
+                        <p className="text text-muted fw-light m-2">{taskCount} items left</p>
                     </div>
                 </div>
             </div>
