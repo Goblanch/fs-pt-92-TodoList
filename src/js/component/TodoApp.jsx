@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Task from "./Task";
 
 const TodoApp = () => {
     const [tasks, setTasks] = useState([]);
@@ -44,17 +45,15 @@ const TodoApp = () => {
                     </div>
                     <ul className="list-group">
                         {tasks.map((task, index) => (
+
                             <li
                                 key={index}
                                 className="list-group-item d-flex justify-content-between align-items-center border m-2 task-item"
                             >
-                                {task}
-                                <button
-                                    className="btn btn-sm delete-button"
-                                    onClick={() => deleteTask(index)}
-                                >
-                                    <i className="fa-solid fa-x" style={{ color: "grey" }}></i>
-                                </button>
+                                <Task
+                                    task={task}
+                                    deleteTask={() => deleteTask(index)}
+                                />
                             </li>
                         ))}
                     </ul>
