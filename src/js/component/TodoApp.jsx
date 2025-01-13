@@ -15,6 +15,7 @@ const TodoApp = () => {
     }
 
     const deleteTask = (index) => {
+        // NOTA: usando filter si no se necesita el elemento del array, por convención usamos _
         setTasks(tasks.filter((_, i) => i !== index));
         setTaskCount(tasks.length - 1)
     }
@@ -29,7 +30,7 @@ const TodoApp = () => {
         <div className="container mt-5">
             <h1 className="text-center fw-light mb-4 app-title">todos</h1>
             <div className="row justify-content-center">
-                <div className="col-md-6 border mb">
+                <div className="col-md-6 border mb tasks-container">
                     <div className="input-group m-2">
                         <input
                             type="text"
