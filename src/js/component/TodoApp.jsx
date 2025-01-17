@@ -5,6 +5,7 @@ const TodoApp = () => {
     const [tasks, setTasks] = useState([]);
     const [taskCount, setTaskCount] = useState(0);
     const [inputValue, setInputValue] = useState("");
+    const [loading, setLoading] = useState("true");
 
     const addTask = () => {
         if (inputValue.trim()) {
@@ -33,6 +34,7 @@ const TodoApp = () => {
 
     const loadTodos = async () => {
         try {
+            setLoading(true);
             const response = await fetch('https://playground.4geeks.com/todo/users/goblanch')
             console.log(response);
             // TODO: controlar si el error es not found
@@ -40,6 +42,7 @@ const TodoApp = () => {
             const fetchData = await response.json();
             console.log(fetchData);
             setTasks(fetchData.todos);
+            setLoading(false)
         } catch (error) {
             console.log("Something went wrong. " + error);
         }
@@ -134,8 +137,9 @@ const TodoApp = () => {
                             </li>
                         ))}
                     </ul>
-                    <div className="border-top">
+                    <div className="border-top d-flex">
                         <p className="text text-muted fw-light m-2">{taskCount} items left</p>
+                        <p className="text text-muted fw-light ms-auto mb-2 align-self-center">{loading ? "Loading tasks..." : ""}</p>
                     </div>
                 </div>
             </div>
