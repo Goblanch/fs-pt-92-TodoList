@@ -10,7 +10,8 @@ const Task = (props) => {
                 className="btn btn-sm delete-button"
                 onClick={props.deleteTask}
             >
-                <i className="fa-solid fa-x" style={{ color: "grey" }}></i>
+                {/* <i className="fa-solid fa-x" style={{ color: "grey" }}></i> */}
+                ❌
             </button>
         </div>
     )

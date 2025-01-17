@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Task from "./Task";
 
 const TodoApp = () => {
@@ -11,6 +11,7 @@ const TodoApp = () => {
             setTasks([...tasks, inputValue]);
             setInputValue("");
             setTaskCount(tasks.length + 1)
+            addTodo(inputValue);
         }
     }
 
@@ -18,6 +19,8 @@ const TodoApp = () => {
         // NOTA: usando filter si no se necesita el elemento del array, por convención usamos _
         setTasks(tasks.filter((_, i) => i !== index));
         setTaskCount(tasks.length - 1)
+
+        removeTodo(tasks[index].id);
     }
 
     const handleKeyDown = (event) => {
@@ -25,6 +28,79 @@ const TodoApp = () => {
             addTask();
         }
     };
+
+    //#region API Functions
+
+    const loadTodos = async () => {
+        try {
+            const response = await fetch('https://playground.4geeks.com/todo/users/goblanch')
+            console.log(response);
+            // TODO: controlar si el error es not found
+            if (!response.ok) createUser();
+            const fetchData = await response.json();
+            console.log(fetchData);
+            setTasks(fetchData.todos);
+        } catch (error) {
+            console.log("Something went wrong. " + error);
+        }
+    }
+
+    const createUser = async () => {
+        try {
+            const response = await fetch("https://playground.4geeks.com/todo/users/goblanch", {
+                method: "POST"
+            })
+            // Hacer esto antes de guardar para ver la respuesta de creación de usuario
+            console.log(response);
+        } catch (error) {
+            console.log("Something went wrong. " + error);
+        }
+    }
+
+    const addTodo = async (todo) => {
+        try {
+            const newTodo = {
+                label: todo,
+                done: false,
+            }
+
+            const response = await fetch('https://playground.4geeks.com/todo/todos/goblanch', {
+                method: "POST",
+                body: JSON.stringify(newTodo),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            console.log(response);
+            if (!response.ok) throw new Error("HTTP error " + response.statusText);
+
+            loadTodos();
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    const removeTodo = async (todoId) => {
+        try {
+            const response = await fetch(`https://playground.4geeks.com/todo/todos/${todoId}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+
+            if (!response.ok) throw new Error("HTTP error " + response.statusText)
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    //#endregion
+
+    useEffect(() => {
+        loadTodos();
+    }, [])
 
     return (
         <div className="container mt-5">
@@ -52,7 +128,7 @@ const TodoApp = () => {
                                 className="list-group-item d-flex justify-content-between align-items-center border m-2 task-item"
                             >
                                 <Task
-                                    task={task}
+                                    task={task.label}
                                     deleteTask={() => deleteTask(index)}
                                 />
                             </li>
